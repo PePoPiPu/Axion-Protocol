@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private Directions _facingDirection = Directions.RIGHT;
     private bool _isFlashlightOn = false;
     private Vector2 _bulletDirection = Vector2.right;
+    private Vector2 _playerCoords;
 
     private readonly int _animIdle = Animator.StringToHash("Anim_Player_Idle");
     private readonly int _animRun = Animator.StringToHash("Anim_Player_Run");
@@ -107,11 +108,18 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(_screenShake.Shaking());
 
                 // Shoot bullet
-                Vector2 playerCoords = ((Vector2)_player.transform.position) - new Vector2(0, 0.3f);
+                if(_facingDirection == Directions.LEFT)
+                {
+                     _playerCoords = ((Vector2)_player.transform.position) - new Vector2(0.4f, 0.3f);
+                }
+                else
+                {
+                    _playerCoords = ((Vector2)_player.transform.position) - new Vector2(-0.4f, 0.3f);
+                }
 
                 GameObject o = bulletPool.GetAvailableGameObject();
                 o.SetActive(true);
-                o.transform.position = playerCoords;
+                o.transform.position = _playerCoords;
                 o.GetComponent<Bullet>().setDirection(_bulletDirection);
             }
             else if (!stateInfo.IsName("Anim_Player_Shoot") || stateInfo.normalizedTime >= 1.0f)
