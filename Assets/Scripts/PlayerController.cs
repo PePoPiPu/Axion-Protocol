@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,10 +9,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody2D _rb;
     [SerializeField] Animator _animator;
     [SerializeField] SpriteRenderer _spriteRenderer;
+    [SerializeField] Light2D _flashlight;
 
     private Vector2 _moveDir = Vector2.zero;
     private enum Directions {LEFT, RIGHT}
     private Directions _facingDirection = Directions.RIGHT;
+    private bool _isFlashlightOn = false;
 
     private readonly int _animIdle = Animator.StringToHash("Anim_Player_Idle");
     private readonly int _animRun = Animator.StringToHash("Anim_Player_Run");
@@ -32,6 +35,20 @@ public class PlayerController : MonoBehaviour
     {
         _moveDir.x = Input.GetAxisRaw("Horizontal");
         _moveDir.y = Input.GetAxisRaw("Vertical");
+
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            if(_isFlashlightOn)
+            {
+                _flashlight.enabled = false;
+                _isFlashlightOn = false;
+            } 
+            else
+            {
+                _flashlight.enabled = true;
+                _isFlashlightOn = true;
+            }
+        }
     }
 
     private void MovementUpdate()
