@@ -1753,7 +1753,7 @@ TextureImporter:
         serializedVersion: 2
         x: 128
         y: 160
-        width: 63
+        width: 64
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -1772,9 +1772,9 @@ TextureImporter:
       name: props and items x1_104
       rect:
         serializedVersion: 2
-        x: 191
+        x: 192
         y: 160
-        width: 65
+        width: 64
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
