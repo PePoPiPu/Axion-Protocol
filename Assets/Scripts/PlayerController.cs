@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private readonly int _animIdle = Animator.StringToHash("Anim_Player_Idle");
     private readonly int _animRun = Animator.StringToHash("Anim_Player_Run");
+    private readonly int _animShoot = Animator.StringToHash("Anim_Player_Shoot");
 
     private void Update()
     {
@@ -88,7 +89,16 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _animator.CrossFade(_animIdle, 0);
+            AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+
+            if (Input.GetMouseButtonDown(0) && !stateInfo.IsName("Anim_Player_Shoot"))
+            {
+                _animator.CrossFade(_animShoot, 0);
+            }
+            else if (!stateInfo.IsName("Anim_Player_Shoot") || stateInfo.normalizedTime >= 1.0f)
+            {
+                _animator.CrossFade(_animIdle, 0);
+            }
         }
     }
 }
