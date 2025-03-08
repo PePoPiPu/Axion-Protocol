@@ -32,13 +32,13 @@ public class DoorLayerController : MonoBehaviour
         if (_playerTransform != null)
         {
             // Compare world positions instead of local Y values
-            if (_playerTransform.position.y < transform.position.y)
+            if (_playerTransform.position.y <= transform.position.y)
             {
                 _doorRenderer.sortingOrder = 0; // Behind player
             }
             else
             {
-                _doorRenderer.sortingOrder = 1; // In front of player
+                _doorRenderer.sortingOrder = 2; // In front of player
             }
         }
     }
