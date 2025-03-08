@@ -11,10 +11,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] Light2D _flashlight;
 
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObjectPool bulletPool;
+    [SerializeField] GameObject _player;
+    [SerializeField] ScreenShake _screenShake;
+
     private Vector2 _moveDir = Vector2.zero;
     private enum Directions {LEFT, RIGHT}
     private Directions _facingDirection = Directions.RIGHT;
     private bool _isFlashlightOn = false;
+    private Vector2 _bulletDirection = Vector2.right;
 
     private readonly int _animIdle = Animator.StringToHash("Anim_Player_Idle");
     private readonly int _animRun = Animator.StringToHash("Anim_Player_Run");
@@ -64,10 +70,12 @@ public class PlayerController : MonoBehaviour
             if (_moveDir.x > 0) // Moving right
             {
                 _facingDirection = Directions.RIGHT;
+                _bulletDirection = Vector2.right;
             }
             else if (_moveDir.x < 0) // Moving left
             {
                 _facingDirection = Directions.LEFT;
+                _bulletDirection = Vector2.left;
             }
         }
     }
@@ -94,6 +102,17 @@ public class PlayerController : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && !stateInfo.IsName("Anim_Player_Shoot"))
             {
                 _animator.CrossFade(_animShoot, 0);
+
+                // Shake screen
+                StartCoroutine(_screenShake.Shaking());
+
+                // Shoot bullet
+                Vector2 playerCoords = ((Vector2)_player.transform.position) - new Vector2(0, 0.3f);
+
+                GameObject o = bulletPool.GetAvailableGameObject();
+                o.SetActive(true);
+                o.transform.position = playerCoords;
+                o.GetComponent<Bullet>().setDirection(_bulletDirection);
             }
             else if (!stateInfo.IsName("Anim_Player_Shoot") || stateInfo.normalizedTime >= 1.0f)
             {
