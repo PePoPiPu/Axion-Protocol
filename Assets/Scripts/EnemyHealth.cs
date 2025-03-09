@@ -35,7 +35,6 @@ public class EnemyHealth : MonoBehaviour
             ChangeHealthBar(_health);
         }
     }
-
     private void ChangeHealthBar(int health)
     {
         if(_shieldBar == null || _shield == 0)

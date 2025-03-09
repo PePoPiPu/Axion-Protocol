@@ -117,11 +117,11 @@ public class EnemyAI : MonoBehaviour
             }
             else if (!PathIsFree(leftCheck))
             {
-                rb.velocity = speed * Time.deltaTime * leftCheck;
+                rb.velocity = (speed / 10) * Time.deltaTime * leftCheck;
             }
             else if (!PathIsFree(rightCheck))
             {
-                rb.velocity = speed * Time.deltaTime * rightCheck;
+                rb.velocity = (speed / 10) * Time.deltaTime * rightCheck;
             }
         }
     }
@@ -170,7 +170,6 @@ public class EnemyAI : MonoBehaviour
             o.SetActive(true);
             o.transform.position = _selfCoords;
             o.GetComponent<Bullet>().setDirection(_bulletDirection);
-
         }
     }
 }
