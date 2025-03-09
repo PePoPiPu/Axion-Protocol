@@ -102,27 +102,26 @@ public class EnemyAI : MonoBehaviour
         }
 
         // Handle obstacles
-        if (!IsObstacleInPath(_moveDir))
+        if (!PathIsFree(_moveDir))
         {
             rb.velocity = _moveDir * speed * Time.fixedDeltaTime;
         }
         else
         {
-            // Simple avoidance: Try moving slightly to the left or right
             Vector2 leftCheck = Vector2.Perpendicular(_moveDir).normalized;
             Vector2 rightCheck = -leftCheck;
 
-            if (!IsObstacleInPath(leftCheck))
+            if (!PathIsFree(leftCheck) && !PathIsFree(rightCheck))
             {
-                rb.velocity = leftCheck * speed;
+                rb.velocity = Vector2.zero; // Stop if both paths are blocked
             }
-            else if (!IsObstacleInPath(rightCheck))
+            else if (!PathIsFree(leftCheck))
             {
-                rb.velocity = rightCheck * speed;
+                rb.velocity = speed * Time.deltaTime * leftCheck;
             }
-            else
+            else if (!PathIsFree(rightCheck))
             {
-                rb.velocity = Vector2.zero; // Stop if blocked completely
+                rb.velocity = speed * Time.deltaTime * rightCheck;
             }
         }
     }
@@ -144,7 +143,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    bool IsObstacleInPath(Vector2 direction)
+    bool PathIsFree(Vector2 direction)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, obstacleCheckDistance, obstacleMask);
         return hit.collider != null;
