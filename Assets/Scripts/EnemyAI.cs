@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] Animator _animator;
     [SerializeField] SpriteRenderer _spriteRenderer;
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObjectPool bulletPool;
+    [SerializeField] GameObject _self;
+    private Vector2 _selfCoords;
 
     void Start()
     {
@@ -144,8 +149,24 @@ public class EnemyAI : MonoBehaviour
     {
         if (Time.time - lastAttackTime >= attackCooldown)
         {
-            Debug.Log("Enemy attacks!");
             lastAttackTime = Time.time;
+            _animator.CrossFade("Anim_Enemy1_Shoot", 0);
+
+            // Shoot bullet
+            if (_facingDirection == Directions.LEFT)
+            {
+                _selfCoords = ((Vector2)_self.transform.position) - new Vector2(0.4f, 0.3f);
+            }
+            else
+            {
+                _selfCoords = ((Vector2)_self.transform.position) - new Vector2(-0.4f, 0.3f);
+            }
+
+            GameObject o = bulletPool.GetAvailableGameObject();
+            o.SetActive(true);
+            o.transform.position = _selfCoords;
+            o.GetComponent<Bullet>().setDirection(_bulletDirection);
+
         }
     }
 }

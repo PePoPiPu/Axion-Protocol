@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameObjectPool : MonoBehaviour
 {
-    public GameObject objectToPool;
+    public GameObject blueStraightBullet;
+    public GameObject greenRoundBullet;
     public uint size;
     public bool shouldExpand = false;
     private List<GameObject> pool;
@@ -39,10 +40,12 @@ public class GameObjectPool : MonoBehaviour
 
     private GameObject AddGameObjectToPool()
     {
-        GameObject o = Instantiate(objectToPool);
+        GameObject o = Instantiate(blueStraightBullet);
+        GameObject o2 = Instantiate(greenRoundBullet);
         pool.Add(o);
+        pool.Add(o2);
         o.SetActive(false);
-
+        o2.SetActive(false);
         return o;
     }
 }
