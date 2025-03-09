@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     private Animator _animator;
     public float currentTime = 0;
     private readonly int _animBulletExpl = Animator.StringToHash("Anim_BlueStraightBulletExplosion");
+    private readonly int _animGreenBulletExpl = Animator.StringToHash("Anim_GreenRoundBulletExplosion");
 
     void Start()
     {
@@ -40,7 +41,14 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        _animator.CrossFade(_animBulletExpl, 0);
+        if(gameObject.CompareTag("Bullet"))
+        {
+            _animator.CrossFade(_animBulletExpl, 0);
+        }
+        else if (gameObject.CompareTag("GreenBullet"))
+        {
+            _animator.CrossFade(_animGreenBulletExpl, 0);
+        }
     }
 
     public void DisableBullet()

@@ -38,6 +38,27 @@ public class GameObjectPool : MonoBehaviour
         return null;
     }
 
+    public GameObject GetAvailableGreenBullet()
+    {
+        foreach (GameObject o in pool)
+        {
+            if(o.CompareTag("GreenBullet"))
+            {
+                if (!o.activeInHierarchy)
+                {
+                    return o;
+                }
+            }
+        }
+
+        if (shouldExpand)
+        {
+            return AddGameObjectToPool();
+        }
+
+        return null;
+    }
+
     private GameObject AddGameObjectToPool()
     {
         GameObject o = Instantiate(blueStraightBullet);

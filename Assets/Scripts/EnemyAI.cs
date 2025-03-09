@@ -162,7 +162,7 @@ public class EnemyAI : MonoBehaviour
                 _selfCoords = ((Vector2)_self.transform.position) - new Vector2(-0.4f, 0.3f);
             }
 
-            GameObject o = bulletPool.GetAvailableGameObject();
+            GameObject o = bulletPool.GetAvailableGreenBullet();
             o.SetActive(true);
             o.transform.position = _selfCoords;
             o.GetComponent<Bullet>().setDirection(_bulletDirection);
