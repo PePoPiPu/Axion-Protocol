@@ -17,12 +17,14 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] Image _shieldBar;
 
     private Animator _animator;
-    [SerializeField] int _health = 6;
+    private Rigidbody2D _rb;
+    public int _health = 6;
     private int _shield = 6;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -70,6 +72,9 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         _animator.CrossFade("Anim_Enemy1_Death", 0);
+        // Lock enemy position upon death
+        _rb.isKinematic = true;
+        _rb.velocity = Vector2.zero;
     }
 
     public void DisableEnemy()

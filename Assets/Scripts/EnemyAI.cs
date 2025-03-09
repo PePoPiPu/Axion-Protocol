@@ -20,6 +20,7 @@ public class EnemyAI : MonoBehaviour
     private enum Directions { LEFT, RIGHT }
     private Directions _facingDirection = Directions.RIGHT;
     private Vector2 _moveDir = Vector2.zero;
+    private EnemyHealth _currentHealth;
 
     [SerializeField] Animator _animator;
     [SerializeField] SpriteRenderer _spriteRenderer;
@@ -32,6 +33,7 @@ public class EnemyAI : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
+        _currentHealth = GetComponent<EnemyHealth>();
     }
 
 
@@ -39,18 +41,21 @@ public class EnemyAI : MonoBehaviour
     {
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= attackRange)
+        if(_currentHealth._health > 0)
         {
-            Attack();
-        }
-        else if (distanceToPlayer <= visionRange)
-        {
-            Chase();
-        }
-        else
-        {
-            Patrol();
-        }
+            if (distanceToPlayer <= attackRange)
+            {
+                Attack();
+            }
+            else if (distanceToPlayer <= visionRange)
+            {
+                Chase();
+            }
+            else
+            {
+                Patrol();
+            }
+        } 
     }
 
     void Patrol()
